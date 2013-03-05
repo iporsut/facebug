@@ -1,35 +1,34 @@
 <cfcomponent displayname="PostSpec" extends="mxunit.framework.TestCase">
 	<cffunction name="PostFirstStatus" returntype="void">
-		<cfset status = createObject("component", "facebug.domain.Status").init()>
-		<cfset newStatus = {text = "Hello World", date = now()}>
-		<cfset status.post(newStatus)>
-		<cfset count = status.count()>
-		<cfset allStatus = status.getAllStatus()>
-		<cfset lastStatus = allStatus[count]>
-		<cfset assertEquals(1, count, "Given : no status , when: post new status, then: must count status is one")>		
+		<cfset locals.status = createObject("component", "facebug.domain.Status").init()>
+		<cfset locals.newStatus = {text = "Hello World", date = now()}>
+		<cfset locals.status.post(locals.newStatus)>
+		<cfset locals.count = locals.status.count()>
+		<cfset locals.allStatus = locals.status.getAllStatus()>
+		<cfset locals.lastStatus = locals.allStatus[locals.count]>
+		<cfset assertEquals(1, locals.count, "Given : no status , when: post new status, then: must count status is one")>		
 	</cffunction>
 
 	<cffunction name="PostAndGetLastStatus" returntype="void">
-		<cfset status = createObject("component", "facebug.domain.Status").init()>
-		<cfset newStatus = {text = "Hello World", date = now()}>
-		<cfset status.post(newStatus)>
-		<cfset count = status.count()>
-		<cfset allStatus = status.getAllStatus()>
-		<cfset lastStatus = allStatus[count]>
-		<cfset assertEquals(lastStatus, newStatus, "Given : no status , when: post new status and get last status, then: must equals status that post")>
+		<cfset locals.status = createObject("component", "facebug.domain.Status").init()>
+		<cfset locals.newStatus = {text = "Hello World", date = now()}>
+		<cfset locals.status.post(locals.newStatus)>
+		<cfset locals.count = locals.status.count()>
+		<cfset locals.allStatus = locals.status.getAllStatus()>
+		<cfset locals.lastStatus = locals.allStatus[locals.count]>
+		<cfset assertEquals(locals.lastStatus, locals.newStatus, "Given : no status , when: post new status and get last status, then: must equals status that post")>
 	</cffunction>
 
 	<cffunction name="PostEmptyStatus" returntype="void">
-		<cfset status = createObject("component", "facebug.domain.Status").init()>
-		<cfset newStatus = {text = "", date = now()}>
-		<cfset expected = "Status cannot empty.">
-		<cfset result = "">
+		<cfset locals.status = createObject("component", "facebug.domain.Status").init()>
+		<cfset locals.newStatus = {text = "", date = now()}>
+		<cfset locals.expected = "Status cannot empty.">
 		<cftry>
-			<cfset status.post(newStatus)>
+			<cfset locals.status.post(locals.newStatus)>
 		<cfcatch>
-			<cfset result = cfcatch.message>
+			<cfset locals.result = cfcatch.message>
 		</cfcatch>
 		</cftry>
-		<cfset assertEquals(expected, result, "Given : no status , when: post empty text status, then: must throw with message 'Status cannot empty.'")>
+		<cfset assertEquals(locals.expected, locals.result, "Given : no status , when: post empty text status, then: must throw with message 'Status cannot empty.'")>
 	</cffunction>
 </cfcomponent>
